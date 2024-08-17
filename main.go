@@ -46,5 +46,7 @@ func main() {
 	myWindow.SetContent(mainContainer)
 	myWindow.Resize(fyne.NewSize(1000, 500))
 	myWindow.CenterOnScreen()
+	myWindow.SetIcon(fyne.NewStaticResource("Logo.svg", []byte(logo)))
+	myWindow.Canvas().Focus(input)
 	myWindow.ShowAndRun()
 }
