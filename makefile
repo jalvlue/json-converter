@@ -14,4 +14,7 @@ clean:
 run: build
 	./$(OUTPUT)
 
-.PHONY: all build clean run
+production:
+	go build -ldflags="-H=windowsgui -s -w" -o jc.exe .
+
+.PHONY: all build clean run production
