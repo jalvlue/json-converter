@@ -14,7 +14,7 @@ func main() {
 	myWindow := myApp.NewWindow("JSON Converter")
 
 	inputEntry := widget.NewMultiLineEntry()
-	inputEntry.SetPlaceHolder("输入原始 JSON 字符串...")
+	inputEntry.SetPlaceHolder("paste JSON string here")
 
 	resultLabel := widget.NewLabel("converted JSON will be displayed here")
 	copyButton := widget.NewButton("copy result", func() {
