@@ -13,34 +13,38 @@ func main() {
 	myApp := app.New()
 	myWindow := myApp.NewWindow("JSON Converter")
 
-	inputEntry := widget.NewMultiLineEntry()
-	inputEntry.SetPlaceHolder("paste JSON string here")
+	input := widget.NewMultiLineEntry()
+	input.SetPlaceHolder("paste JSON string here")
+	input.TextStyle.Bold = true
 
-	resultLabel := widget.NewLabel("converted JSON will be displayed here")
+	result := widget.NewMultiLineEntry()
+	result.SetPlaceHolder("converted result will be shown here")
+	result.TextStyle.Bold = true
+
 	copyButton := widget.NewButton("copy result", func() {
-		myWindow.Clipboard().SetContent(resultLabel.Text)
+		myWindow.Clipboard().SetContent(result.Text)
 	})
 
 	// listen to input changes
-	inputEntry.OnChanged = func(s string) {
+	input.OnChanged = func(s string) {
 		var data interface{}
 		err := json.Unmarshal([]byte(s), &data)
 		if err != nil {
-			resultLabel.SetText("invalid JSON string")
+			result.SetText("invalid JSON string")
 			return
 		}
 
 		prettyJSON, _ := json.MarshalIndent(data, "", "    ")
 
-		resultLabel.SetText(string(prettyJSON))
+		result.SetText(string(prettyJSON))
 	}
 
 	// layout
-	leftContainer := container.NewVBox(inputEntry)
-	rightContainer := container.NewVBox(resultLabel, copyButton)
-	mainContainer := container.NewHSplit(leftContainer, rightContainer)
+	textContainer := container.NewHSplit(input, result)
+	mainContainer := container.NewBorder(nil, copyButton, nil, nil, textContainer)
 
 	myWindow.SetContent(mainContainer)
-	myWindow.Resize(fyne.NewSize(800, 600))
+	myWindow.Resize(fyne.NewSize(1000, 500))
+	myWindow.CenterOnScreen()
 	myWindow.ShowAndRun()
 }
